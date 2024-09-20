@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thanks</title>
+</head>
+<body>
+    <h1>Thanksgiving Meal Menu</h1>
+
+    <h2>Full Meal Details:</h2>
+    <p class="fullMeal"></p>
+
+    <h2>Meal Pricing:</h2>
+    <p class="priceInfo"></p>
+
+    <h2>Calorie Information:</h2>
+    <p class="calorieInfo"></p>
+
+    <script>
+        const thanksgivingMeal = {
+            starter: {
+                fruit: "honeydew melon",
+                wine: "moscato",
+                calories: 180
+            },
+            entree: {
+                meat: "Turkey",
+                alt: "Stuffed green peppers",
+                vegetables: {
+                    potatoes: "Creamed mashed potatoes",
+                    greens: "French beans",
+                    salad: "Radicchio"
+                },
+                sides: {
+                    bread: "garlic bread rolls",
+                    pasta: "Macaroni and Cheese"
+                },
+                calories: 450
+            },
+            dessert: {
+                ice_cream: "pumpkin-vanilla",
+                cake: "frosted pumpkin pie",
+                calories: 300
+            },
+            total_cost: 25.0,
+            senior_discount: 0.10,
+            prettyPrint: function () {
+                let menuStr = `Starter: ${this.starter.fruit} with ${this.starter.wine}\n`;
+                menuStr += `Entree: ${this.entree.meat} or ${this.entree.alt}, with ${this.entree.vegetables.potatoes}, ${this.entree.vegetables.greens}, and ${this.entree.vegetables.salad}, sides of ${this.entree.sides.bread} and ${this.entree.sides.pasta}\n`;
+                menuStr += `Dessert: ${this.dessert.ice_cream} and ${this.dessert.cake}`;
+                return menuStr;
+            },
+            totalPrice: function (isSenior) {
+                if (isSenior) {
+                    return this.total_cost * (1 - this.senior_discount);
+                }
+                return this.total_cost;
+            },
+            totalCalories: function () {
+                return this.starter.calories + this.entree.calories + this.dessert.calories;
+            },
+            caloriesFrom: function (indicator) {
+                if (indicator == 1) {
+                    return this.starter.calories;
+                } else if (indicator == 2) {
+                    return this.entree.calories;
+                } else if (indicator == 3) {
+                    return this.dessert.calories;
+                }
+                return 0;
+            }
+        };
+
+        console.log("Pretty Print:");
+        console.log(thanksgivingMeal.prettyPrint());
+        let menu = document.querySelector(".fullMeal");
+        menu.textContent = thanksgivingMeal.prettyPrint();
+
+        let price = document.querySelector(".priceInfo");
+        let isSenior = true;
+        price.textContent = "Total Price: $" + thanksgivingMeal.totalPrice(isSenior).toFixed(2);
+        console.log("Total Price: $" + thanksgivingMeal.totalPrice(isSenior).toFixed(2));
+
+        let calories = document.querySelector(".calorieInfo");
+        calories.textContent = "Total Calories: " + thanksgivingMeal.totalCalories();
+        console.log("Total Calories: " + thanksgivingMeal.totalCalories());
+
+        let starterCalories = thanksgivingMeal.caloriesFrom(1);
+        let entreeCalories = thanksgivingMeal.caloriesFrom(2);
+        let dessertCalories = thanksgivingMeal.caloriesFrom(3);
+
+        console.log("Starter Calories: " + starterCalories);
+        console.log("Entree Calories: " + entreeCalories);
+        console.log("Dessert Calories: " + dessertCalories);
+    </script>
+</body>
+</html>
